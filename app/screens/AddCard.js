@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, useCallback} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppButton from '../reusable/AppButton';
 import AppCards from '../reusable/AppCards';
@@ -11,7 +11,6 @@ import {Styles} from '../reusable/GlobalStyle';
 import Header from '../reusable/Header';
 import {doc, setDoc, addDoc, getDoc, collection, ref} from 'firebase/firestore';
 import {firebase} from '../../config';
-import {useCallback} from 'react/cjs/react.production.min';
 
 // create a component
 const AddCard = ({navigation}) => {
