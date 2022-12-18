@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Snackbar} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as appColors from '../reusable/Constants';
+import * as appColors from './Constants';
 
 const useToastAlert = () => {
   const [isOpen, setIsOpen] = useState(false);

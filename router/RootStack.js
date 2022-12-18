@@ -12,10 +12,12 @@ const RootStack = () => {
   const Stacks = createNativeStackNavigator();
   return (
     <Stacks.Navigator
+      initialRouteName="Auth"
       screenOptions={{
         headerShown: false,
       }}>
       <Stacks.Screen component={DashbaordTab} name="dashboardTab" />
+      <Stacks.Screen component={AuthStacks} name="Auth" />
       <Stacks.Screen component={MasterPassword} name="masterPassword" />
       <Stacks.Screen component={Verify} name="verify" />
       <Stacks.Screen component={AddCard} name="AddCard" />

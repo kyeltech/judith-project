@@ -1,6 +1,6 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect, useCallback} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {View, StyleSheet, ScrollView, useCallback} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppButton from '../reusable/AppButton';
 import AppCards from '../reusable/AppCards';
@@ -9,8 +9,7 @@ import AppText from '../reusable/AppText';
 import {PrimaryDarkColor, WhiteColor} from '../reusable/Constants';
 import {Styles} from '../reusable/GlobalStyle';
 import Header from '../reusable/Header';
-import {doc, setDoc, addDoc, getDoc, collection, ref} from 'firebase/firestore';
-import {firebase} from '../../config';
+import {addDoc, collection} from 'firebase/firestore';
 
 // create a component
 const AddCard = ({navigation}) => {
@@ -18,59 +17,14 @@ const AddCard = ({navigation}) => {
   const [holder, setIsHolder] = React.useState('');
   const [expiry, setIsExpiry] = React.useState('');
   const [number, setIsNumber] = React.useState('');
-  const [card, setCards] = React.useState();
+  const [card, setCards] = React.useState([]);
   // const cardRef = firebase.firestore().collection('cardDetails');
   // const cardRef2 = collection(firebase, 'cardDetails');
 
-  const CreateCard = useCallback(
-    (cards = []) => {
-      if (
-        (cvv && cvv.length > 0) ||
-        (holder && holder.length > 0(expiry && expiry.length > 0)) ||
-        (number && number.length > 0)
-      ) {
-        // const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        const data = {
-          name: holder,
-          cvv: cvv,
-          date: expiry,
-          card: number,
-          // createdAt: timestamp,
-        };
+  // useEffect(() => {
+  //   getUser();
+  // }, [getUser]);
 
-        // setCards(addings => )
-
-        // const usersRef = ref.child('cardDetails');
-        // usersRef.set({
-        //   name: holder,
-        //   cvv: cvv,
-        //   date: expiry,
-        //   card: number,
-        // });
-        const cardRef2 = collection(firebase, 'cardDetails');
-        // const result = await addDoc(cardRef2, data);
-        // if (result) {
-        //   console.log('Successful');
-        // } else {
-        //   console.log('Error adding data');
-        // }
-        // const citiesCol = collection(firebase, 'cardDetails');
-        // const citySnapshot = await getDoc(citiesCol);
-        // const cityList = citySnapshot.docs.map(doc => doc.data());
-        // console.log(cityList);
-        // cardRef
-        //   .add(data)
-        //   .then(res => {
-        //     console.log('success', res);
-        //     setIsHolder();
-        //   })
-        //   .catch(err => {
-        //     console.log('error', err);
-        //   });
-      }
-    },
-    [cvv, expiry, holder, number],
-  );
   const CardItem = useMemo(
     () => [
       {
@@ -167,7 +121,7 @@ const AddCard = ({navigation}) => {
 
           <View>
             <AppButton
-              onClick={CreateCard}
+              onClick={'hello'}
               text="Save Card"
               style={styles.btnContainer}
             />

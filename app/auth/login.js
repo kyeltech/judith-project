@@ -19,14 +19,17 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Styles} from '../reusable/GlobalStyle';
 import {PrimaryColor} from '../reusable/Constants';
 import {TouchableRipple} from 'react-native-paper';
-import {AuthContext} from '../../router/AuthProvider';
 import OnboardingScreen from '../../assets/Image/fingerprint.png';
 // create a component
-const Login = ({navigation, isTrue}) => {
-  const {login} = useContext(AuthContext);
+const Login = ({navigation, isTrue, route}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [isBiometric, setIsBiometric] = useState();
+  const user = route?.params;
+
+  React.useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <SafeAreaView style={Styles.SafeAreaContainer}>
@@ -70,7 +73,7 @@ const Login = ({navigation, isTrue}) => {
           <>
             <View>
               <AppButton
-                onClick={() => login(email, password)}
+                onClick={() => ''}
                 text="Submit"
                 style={styles.btnContainer}
               />
