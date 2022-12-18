@@ -13,7 +13,13 @@ import {
 import {Styles} from '../../reusable/GlobalStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // create a component
-const Home = () => {
+const Home = ({route}) => {
+  const data = route?.params;
+
+  React.useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const EncryptedItem = useMemo(
     () => [
       {

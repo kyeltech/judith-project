@@ -6,13 +6,10 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppInput from '../reusable/AppInput';
 import Header from '../reusable/Header';
 import {EMAIL_REGEX, PHONE_REGEX} from '../reusable/validation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AppButton from '../reusable/AppButton';
 import AppText from '../reusable/AppText';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Styles} from '../reusable/GlobalStyle';
-import {Grey800Color, PrimaryColor, SuccessColor} from '../reusable/Constants';
-import {ActivityIndicator, TouchableRipple} from 'react-native-paper';
 import {usePostRequest} from '../services/mutation/post';
 import useToastAlert from '../reusable/useToastAlert';
 // create a component
@@ -44,11 +41,14 @@ const SignUp = ({navigation}) => {
   const {createPost: signUpUser, isLoading} = usePostRequest(
     '/auth/signup',
     async res => {
-      navigation.navigate('Login', {
-        user,
-        data: requestPayload,
+      setTimeout(() => {
+        navigation.navigate('Login', {
+          user,
+          data: requestPayload,
+        });
+        showToast(res?.data?.message);
       });
-      showToast(res?.data?.message);
+
       // console.log(res?.data?.message);
     },
     async err => {
