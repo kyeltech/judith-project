@@ -7,6 +7,8 @@ import Verify from '../app/auth/Verify';
 import AddCard from '../app/screens/AddCard';
 import Encryption from '../app/screens/Encryption';
 import DashbaordTab from './Dashboard';
+import AppList from '../app/screens/AppList';
+import Dec from '../app/screens/Dec';
 // create a component
 const RootStack = () => {
   const Stacks = createNativeStackNavigator();
@@ -20,8 +22,10 @@ const RootStack = () => {
       <Stacks.Screen component={AuthStacks} name="Auth" />
       <Stacks.Screen component={MasterPassword} name="masterPassword" />
       <Stacks.Screen component={Verify} name="verify" />
+      <Stacks.Screen component={AppList} name="applist" />
       <Stacks.Screen component={AddCard} name="AddCard" />
       <Stacks.Screen component={Encryption} name="encrypt" />
+      <Stacks.Screen component={Dec} name="dec" />
     </Stacks.Navigator>
   );
 };

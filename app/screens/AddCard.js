@@ -1,4 +1,4 @@
-import React, {useMemo, useEffect, useCallback} from 'react';
+import React, {useMemo, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -9,15 +9,14 @@ import AppText from '../reusable/AppText';
 import {PrimaryDarkColor, WhiteColor} from '../reusable/Constants';
 import {Styles} from '../reusable/GlobalStyle';
 import Header from '../reusable/Header';
-import {addDoc, collection} from 'firebase/firestore';
+import AppTab from '../reusable/AppTab';
+import Socials from '../reusable/Socials';
+import Cards from '../reusable/Cards';
 
 // create a component
 const AddCard = ({navigation}) => {
-  const [cvv, setIsCvv] = React.useState('');
-  const [holder, setIsHolder] = React.useState('');
-  const [expiry, setIsExpiry] = React.useState('');
-  const [number, setIsNumber] = React.useState('');
-  const [card, setCards] = React.useState([]);
+  const [tabIndex, setTabIndex] = useState(0);
+
   // const cardRef = firebase.firestore().collection('cardDetails');
   // const cardRef2 = collection(firebase, 'cardDetails');
 
@@ -25,109 +24,31 @@ const AddCard = ({navigation}) => {
   //   getUser();
   // }, [getUser]);
 
-  const CardItem = useMemo(
+  const tabs = useMemo(
     () => [
       {
-        value: '' || 'xxxx xxxx xxxx xxxx',
+        component: tabProps => <Cards {...tabProps} />,
+        key: 'cards',
+        title: 'Add Cards',
       },
       {
-        dateOnCard: '' || 'MM/YY ',
-      },
-      {
-        CardHolderName: '' || 'CARD HOLDER',
+        component: tabProps => <Socials {...tabProps} />,
+        key: 'social',
+        title: 'Add Socials',
       },
     ],
     [],
   );
   return (
     <SafeAreaProvider style={[Styles.SafeAreaContainer, styles.container]}>
-      <Header hasGoBack centerTitle={'Add New Cards'} />
-      <ScrollView showsVerticalScrollIndicator>
-        <AppCards style={styles.walletButtonContent}>
-          {CardItem.slice(0, 1).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.value}
-              </AppText>
-            </View>
-          ))}
-          {CardItem.slice(1, 2).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.dateOnCard}
-              </AppText>
-            </View>
-          ))}
-          {CardItem.slice(2, 3).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.CardHolderName}
-              </AppText>
-            </View>
-          ))}
-        </AppCards>
-
-        <View style={styles.inputcontainer}>
-          <AppInput
-            onChangeText={card => setIsNumber(card)}
-            value={number}
-            label={'Card Number'}
-            type={'input'}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              flexGrow: 2,
-            }}>
-            <AppInput
-              inputStyle={{maxWidth: '80%'}}
-              onChangeText={date => setIsExpiry(date)}
-              value={expiry}
-              label="Expiry date"
-              type={'number'}
-            />
-            <AppInput
-              inputStyle={{maxWidth: '75%'}}
-              onChangeText={cvv => setIsCvv(cvv)}
-              value={cvv}
-              label={'cvv'}
-              autoCapitalize={'none'}
-              type="name"
-            />
-          </View>
-
-          <AppInput
-            onChangeText={name => setIsHolder(name)}
-            label={'Card Holder'}
-            value={holder}
-            autoCapitalize={'none'}
-            type="name"
-          />
-
-          <View>
-            <AppButton
-              onClick={'hello'}
-              text="Save Card"
-              style={styles.btnContainer}
-            />
-          </View>
-        </View>
-      </ScrollView>
+      {/* <Header hasGoBack centerTitle={'Add New Cards'} /> */}
+      <AppTab
+        items={tabs}
+        index={tabIndex}
+        onChange={setTabIndex}
+        round
+        roundTabItemStyle={styles.tabItemStyle}
+      />
     </SafeAreaProvider>
   );
 };
@@ -135,6 +56,7 @@ const AddCard = ({navigation}) => {
 // define your styles
 const styles = StyleSheet.create({
   container: {
+    paddingVertical: 30,
     paddingHorizontal: 16,
     paddingBottom: 20,
   },

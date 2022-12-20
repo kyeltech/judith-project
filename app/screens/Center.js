@@ -1,14 +1,11 @@
 //import liraries
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {TouchableRipple} from 'react-native-paper';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, {useCallback} from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import AppText from '../reusable/AppText';
 import {PrimaryDarkColor, WhiteColor} from '../reusable/Constants';
-import {Styles} from '../reusable/GlobalStyle';
 import Header from '../reusable/Header';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import FetchedCards from './FetchedCards';
 // create a component
 const Center = ({navigation}) => {
   return (
@@ -30,7 +27,7 @@ const Center = ({navigation}) => {
       </View>
 
       <View style={styles.container}>
-        <Text>No Card Added yet</Text>
+        <FetchedCards />
       </View>
     </>
   );
@@ -41,8 +38,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 30,
   },
+
   areaContainer: {
     padding: 20,
   },

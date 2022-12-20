@@ -31,7 +31,7 @@ const Login = ({navigation, isTrue, route}) => {
   const [isBiometric, setIsBiometric] = useState();
   const {showToast, renderToast} = useToastAlert();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const user = route?.params;
+  // const user = route?.params;
 
   const defaultRules = {
     email: {
@@ -46,9 +46,9 @@ const Login = ({navigation, isTrue, route}) => {
     password: {},
   };
 
-  React.useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // React.useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
 
   const defaultState = {
     email: '',
@@ -83,8 +83,9 @@ const Login = ({navigation, isTrue, route}) => {
         navigation.navigate('dashboardTab', {
           user: res?.data.user,
         });
-        showToast(' user login to account successfully and user notified.');
       }, 1000);
+      showToast(' user login to account successfully and user notified.');
+
       // navigation.navigate('dashboardTab', {
       //   data: res?.data.user,
       // });
