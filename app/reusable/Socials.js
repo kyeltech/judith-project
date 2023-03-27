@@ -29,10 +29,7 @@ const Socials = () => {
         value: '' || 'xxxx xxxx xxxx xxxx',
       },
       {
-        dateOnCard: '' || 'MM/YY ',
-      },
-      {
-        CardHolderName: '' || 'CARD HOLDER',
+        CardHolderName: '' || 'Social Details',
       },
     ],
     [],
@@ -100,18 +97,6 @@ const Socials = () => {
           </View>
         ))}
         {CardItem.slice(1, 2).map((item, index) => (
-          <View key={`_${index}`} style={styles.walletBalance}>
-            <AppText
-              style={[
-                Styles.body3,
-                styles.text,
-                {botderWidth: 1, boorderColor: WhiteColor},
-              ]}>
-              {item.dateOnCard}
-            </AppText>
-          </View>
-        ))}
-        {CardItem.slice(2, 3).map((item, index) => (
           <View key={`_${index}`} style={styles.walletBalance}>
             <AppText
               style={[
@@ -229,7 +214,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   walletButtonContent: {
-    height: 185,
+    height: 140,
     width: 'auto',
     backgroundColor: PrimaryDarkColor,
     padding: 30,
