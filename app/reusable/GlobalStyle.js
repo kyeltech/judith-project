@@ -14,7 +14,7 @@ import {fontConfig} from './Theme';
 export const Styles = StyleSheet.create({
   SafeAreaContainerTopLevel: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     paddingBottom: 20,
     marginBottom: Platform.select({android: -20, ios: -40, default: 5}),
   },

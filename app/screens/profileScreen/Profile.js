@@ -1,14 +1,12 @@
 //import liraries
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {AuthContext} from '../../../router/AuthProvider';
 import AppButton from '../../reusable/AppButton';
 // create a component
 const Profile = () => {
-  const {logout} = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <AppButton text={'logout'} onClick={() => logout()} />
+      <AppButton text={'logout'} onClick={() => 'logout()'} />
     </View>
   );
 };

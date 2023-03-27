@@ -1,34 +1,56 @@
 //import liraries
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import RootStack from './RootStack';
-import {AuthContext} from './AuthProvider';
+import UserInactivity from 'react-native-user-inactivity';
+// import {AuthContext} from './AuthProvider';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import auth from '@react-native-firebase/auth';
 import AuthStacks from './AuthStack';
-import DashbaordTab from './Dashboard';
+import {navigationContainerRef} from '../app/utils/navigation';
 // create a component
 const Router = () => {
-  const [initializing, setInitializing] = React.useState(true);
-  const {user, setUser} = useContext(AuthContext);
+  const [active, setActive] = useState(true);
+  const [timer, setTimer] = useState(5 * 60 * 100);
+  // const {user, setUser} = useContext(AuthContext);
 
-  const onAuthStateChanged = user => {
-    setUser(user);
-    if (initializing) setInitializing(false);
+  // const onAuthStateChanged = user => {
+  //   setUser(user);
+  //   if (initializing) setInitializing(false);
+  // };
+
+  // React.useEffect(() => {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber;
+  // });
+
+  const handleSessionTimeout = () => {
+    const routes = navigationContainerRef.current?.getRootState();
+    const currentRoute = routes?.routes?.[routes?.routes?.length - 1];
+    if (!['Auth'].includes(currentRoute?.name)) {
+      navigationContainerRef.current?.reset({
+        index: 0,
+        routes: [{name: 'Auth', screen: 'Login'}],
+      });
+      // checkAuth();
+    }
   };
 
-  React.useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  });
-
-  if (initializing) return null;
   return (
-    <SafeAreaProvider initialWindowMetrics={initialWindowMetrics}>
-      {user ? <DashbaordTab /> : <AuthStacks />}
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <UserInactivity
+        isActive={active}
+        timeForInactivity={timer}
+        onAction={isActive => {
+          setActive(isActive);
+          if (isActive === false) {
+            handleSessionTimeout();
+          }
+        }}>
+        <RootStack />
+      </UserInactivity>
     </SafeAreaProvider>
   );
 };

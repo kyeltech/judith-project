@@ -19,14 +19,95 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Styles} from '../reusable/GlobalStyle';
 import {PrimaryColor} from '../reusable/Constants';
 import {TouchableRipple} from 'react-native-paper';
-import {AuthContext} from '../../router/AuthProvider';
 import OnboardingScreen from '../../assets/Image/fingerprint.png';
+import {usePostRequest} from '../services/mutation/post';
+import useToastAlert from '../reusable/useToastAlert';
+import {EMAIL_REGEX, PHONE_REGEX} from '../reusable/validation';
+import {setAuthToken} from '../utils/token';
+import * as Keychain from 'react-native-keychain';
+import {setLoginEmail} from '../utils/loginType';
 // create a component
-const Login = ({navigation, isTrue}) => {
-  const {login} = useContext(AuthContext);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const Login = ({navigation, isTrue, route}) => {
   const [isBiometric, setIsBiometric] = useState();
+  const {showToast, renderToast} = useToastAlert();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const user = route?.params;
+
+  const defaultRules = {
+    email: {
+      value: EMAIL_REGEX,
+      message: 'Enter valid email address',
+    },
+    phone: {
+      value: PHONE_REGEX,
+      message: 'Enter valid phone number',
+    },
+    countryCode: {},
+    password: {},
+  };
+
+  // React.useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
+
+  const defaultState = {
+    email: '',
+    password: '',
+  };
+
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    // isLoading,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const {createPost: signinWithEmail, isLoading} = usePostRequest(
+    '/auth/login',
+    async res => {
+      const username =
+        (res?.data.user.firstname && res?.data.user.lastname) || 'User';
+      const token = res?.data.token;
+      await setAuthToken(token);
+      await setLoginEmail(username);
+      await Keychain.setGenericPassword(username, token).catch(() => {});
+      setIsLoggedIn(true);
+      setTimeout(() => {
+        navigation.navigate('dashboardTab', {
+          user: res?.data.user,
+        });
+      }, 1000);
+      showToast(' user login to account successfully and user notified.');
+
+      // navigation.navigate('dashboardTab', {
+      //   data: res?.data.user,
+      // });
+
+      // showToast(' user login to account successfully and user notified.');
+      console.log(res?.data.token);
+
+      // console.log(res?.data.user.firstname);
+      // console.log(res?.data.user.lastname);
+    },
+    async err => {
+      console.log(err?.status);
+      if (err?.errorResponse) {
+        showToast(err?.errorResponse);
+      }
+    },
+  );
+
+  const onSubmit = async data => {
+    await signinWithEmail(data);
+    console.log(data);
+  };
 
   return (
     <SafeAreaView style={Styles.SafeAreaContainer}>
@@ -41,36 +122,49 @@ const Login = ({navigation, isTrue}) => {
           nestedScrollEnabled={true}
           contentContainerStyle={[styles.inputcontainerScroll]}>
           <View style={styles.inputcontainer}>
-            <AppInput
-              LeftIcon={() => (
-                <Ionicons name="person" size={20} color={PrimaryColor} />
-              )}
-              onChangeText={useMail => setEmail(useMail)}
-              label={'email'}
-              labelValue={email}
-              type="email"
-            />
-            <AppInput
-              onChangeText={usePassword => setPassword(usePassword)}
-              LeftIcon={() => (
-                <Ionicons name="lock-closed" size={20} color={PrimaryColor} />
-              )}
-              label={'password'}
-              labelValue={password}
-              autoCapitalize={'none'}
-              type={'password'}
-            />
-
-            <TouchableRipple
-              style={styles.forgotPContainer}
-              onPress={() => navigation.navigate('forgotpassword')}>
-              <AppText>Forgot Password?</AppText>
-            </TouchableRipple>
+            <View>
+              {[
+                {label: 'Email', key: 'email'},
+                {label: 'Password', key: 'password'},
+              ].map(item => (
+                <>
+                  <Controller
+                    key={item.key}
+                    control={control}
+                    // pattern: defaultRules[item.key],
+                    rules={{
+                      required: {
+                        value: true,
+                        message: `${item.label} is required`,
+                      },
+                      pattern: defaultRules[item.key],
+                    }}
+                    render={({field: {onChange, onBlur, value}}) => (
+                      <AppInput
+                        label={item.label}
+                        // style={styles.input}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        error={errors[item.key]?.message}
+                        value={value}
+                        autoCapitalize={'none'}
+                        type={
+                          item.key.includes('password') ? 'password' : 'input'
+                        }
+                      />
+                    )}
+                    name={item.key}
+                  />
+                </>
+              ))}
+            </View>
           </View>
           <>
             <View>
               <AppButton
-                onClick={() => login(email, password)}
+                loading={isLoading}
+                disabled={isLoading}
+                onClick={handleSubmit(onSubmit)}
                 text="Submit"
                 style={styles.btnContainer}
               />
@@ -94,6 +188,7 @@ const Login = ({navigation, isTrue}) => {
           </>
         </KeyboardAwareScrollView>
       </>
+      {renderToast()}
     </SafeAreaView>
   );
 };

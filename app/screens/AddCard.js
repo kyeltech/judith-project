@@ -1,6 +1,6 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {View, StyleSheet, ScrollView, useCallback} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppButton from '../reusable/AppButton';
 import AppCards from '../reusable/AppCards';
@@ -9,171 +9,46 @@ import AppText from '../reusable/AppText';
 import {PrimaryDarkColor, WhiteColor} from '../reusable/Constants';
 import {Styles} from '../reusable/GlobalStyle';
 import Header from '../reusable/Header';
-import {doc, setDoc, addDoc, getDoc, collection, ref} from 'firebase/firestore';
-import {firebase} from '../../config';
+import AppTab from '../reusable/AppTab';
+import Socials from '../reusable/Socials';
+import Cards from '../reusable/Cards';
 
 // create a component
 const AddCard = ({navigation}) => {
-  const [cvv, setIsCvv] = React.useState('');
-  const [holder, setIsHolder] = React.useState('');
-  const [expiry, setIsExpiry] = React.useState('');
-  const [number, setIsNumber] = React.useState('');
-  const [card, setCards] = React.useState();
+  const [tabIndex, setTabIndex] = useState(0);
+
   // const cardRef = firebase.firestore().collection('cardDetails');
   // const cardRef2 = collection(firebase, 'cardDetails');
 
-  const CreateCard = useCallback(
-    (cards = []) => {
-      if (
-        (cvv && cvv.length > 0) ||
-        (holder && holder.length > 0(expiry && expiry.length > 0)) ||
-        (number && number.length > 0)
-      ) {
-        // const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        const data = {
-          name: holder,
-          cvv: cvv,
-          date: expiry,
-          card: number,
-          // createdAt: timestamp,
-        };
+  // useEffect(() => {
+  //   getUser();
+  // }, [getUser]);
 
-        // setCards(addings => )
-
-        // const usersRef = ref.child('cardDetails');
-        // usersRef.set({
-        //   name: holder,
-        //   cvv: cvv,
-        //   date: expiry,
-        //   card: number,
-        // });
-        const cardRef2 = collection(firebase, 'cardDetails');
-        // const result = await addDoc(cardRef2, data);
-        // if (result) {
-        //   console.log('Successful');
-        // } else {
-        //   console.log('Error adding data');
-        // }
-        // const citiesCol = collection(firebase, 'cardDetails');
-        // const citySnapshot = await getDoc(citiesCol);
-        // const cityList = citySnapshot.docs.map(doc => doc.data());
-        // console.log(cityList);
-        // cardRef
-        //   .add(data)
-        //   .then(res => {
-        //     console.log('success', res);
-        //     setIsHolder();
-        //   })
-        //   .catch(err => {
-        //     console.log('error', err);
-        //   });
-      }
-    },
-    [cvv, expiry, holder, number],
-  );
-  const CardItem = useMemo(
+  const tabs = useMemo(
     () => [
       {
-        value: '' || 'xxxx xxxx xxxx xxxx',
+        component: tabProps => <Cards {...tabProps} />,
+        key: 'cards',
+        title: 'Add Cards',
       },
       {
-        dateOnCard: '' || 'MM/YY ',
-      },
-      {
-        CardHolderName: '' || 'CARD HOLDER',
+        component: tabProps => <Socials {...tabProps} />,
+        key: 'social',
+        title: 'Add Socials',
       },
     ],
     [],
   );
   return (
     <SafeAreaProvider style={[Styles.SafeAreaContainer, styles.container]}>
-      <Header hasGoBack centerTitle={'Add New Cards'} />
-      <ScrollView showsVerticalScrollIndicator>
-        <AppCards style={styles.walletButtonContent}>
-          {CardItem.slice(0, 1).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.value}
-              </AppText>
-            </View>
-          ))}
-          {CardItem.slice(1, 2).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.dateOnCard}
-              </AppText>
-            </View>
-          ))}
-          {CardItem.slice(2, 3).map((item, index) => (
-            <View key={`_${index}`} style={styles.walletBalance}>
-              <AppText
-                style={[
-                  Styles.body3,
-                  styles.text,
-                  {botderWidth: 1, boorderColor: WhiteColor},
-                ]}>
-                {item.CardHolderName}
-              </AppText>
-            </View>
-          ))}
-        </AppCards>
-
-        <View style={styles.inputcontainer}>
-          <AppInput
-            onChangeText={card => setIsNumber(card)}
-            value={number}
-            label={'Card Number'}
-            type={'input'}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              flexGrow: 2,
-            }}>
-            <AppInput
-              inputStyle={{maxWidth: '80%'}}
-              onChangeText={date => setIsExpiry(date)}
-              value={expiry}
-              label="Expiry date"
-              type={'number'}
-            />
-            <AppInput
-              inputStyle={{maxWidth: '75%'}}
-              onChangeText={cvv => setIsCvv(cvv)}
-              value={cvv}
-              label={'cvv'}
-              autoCapitalize={'none'}
-              type="name"
-            />
-          </View>
-
-          <AppInput
-            onChangeText={name => setIsHolder(name)}
-            label={'Card Holder'}
-            value={holder}
-            autoCapitalize={'none'}
-            type="name"
-          />
-
-          <View>
-            <AppButton
-              onClick={CreateCard}
-              text="Save Card"
-              style={styles.btnContainer}
-            />
-          </View>
-        </View>
-      </ScrollView>
+      {/* <Header hasGoBack centerTitle={'Add New Cards'} /> */}
+      <AppTab
+        items={tabs}
+        index={tabIndex}
+        onChange={setTabIndex}
+        round
+        roundTabItemStyle={styles.tabItemStyle}
+      />
     </SafeAreaProvider>
   );
 };
@@ -181,6 +56,7 @@ const AddCard = ({navigation}) => {
 // define your styles
 const styles = StyleSheet.create({
   container: {
+    paddingVertical: 30,
     paddingHorizontal: 16,
     paddingBottom: 20,
   },

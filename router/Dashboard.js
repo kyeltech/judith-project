@@ -70,8 +70,8 @@ const DashbaordTab = () => {
         }}
       />
       <Tab.Screen
-        name="PortfolioStack"
-        component={AddCard}
+        name="CenterStack"
+        component={Center}
         options={{
           tabBarIcon: ({color, size, focused}) => (
             <View
@@ -104,8 +104,8 @@ const DashbaordTab = () => {
       />
 
       <Tab.Screen
-        name="CenterStack"
-        component={Center}
+        name="PortfolioStack"
+        component={AddCard}
         options={{
           tabBarIcon: ({focused, size, color, props}) => (
             <>

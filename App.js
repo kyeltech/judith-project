@@ -3,42 +3,35 @@ import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './router/index';
-import AuthProvider from './router/AuthProvider';
+import {QueryClientProvider, QueryClient} from 'react-query';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        // TODO: wip
+        // refetchOnWindowFocus: false,
+        // refetchOnMount: false,
+        // cacheTime: 1 * 60 * 60 * 1000,
+        // staleTime: 1 * 60 * 60 * 1000,
+        // retry: 1,
+      },
+    },
+  });
 
   return (
     <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <PaperProvider>
-        <NavigationContainer>
-          <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider>
+          <NavigationContainer>
             <Router />
-          </AuthProvider>
-        </NavigationContainer>
-      </PaperProvider>
+          </NavigationContainer>
+        </PaperProvider>
+      </QueryClientProvider>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
