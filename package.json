@@ -31,6 +31,7 @@
     "react-native-screens": "^3.18.2",
     "react-native-tab-view": "^3.3.4",
     "react-native-user-inactivity": "^1.2.0",
+    "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-query": "^3.39.2"
   },
@@ -38,6 +39,7 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/react-native": "^12.0.1",
     "@types/jest": "^29.5.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.32.0",
