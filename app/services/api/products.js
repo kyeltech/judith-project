@@ -7,3 +7,7 @@ export const getSavedCards = async () => {
 export const getSocials = async () => {
   return await api.get('/social');
 };
+
+export const getFollowers = async () => {
+  return await api.get('/?results=5');
+};

@@ -22,3 +22,5 @@ export const transformSocials = data =>
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
   }));
+
+export const transformFollowers = data => ({...data});

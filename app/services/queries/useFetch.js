@@ -1,6 +1,10 @@
 import {useInfiniteQuery, useQuery} from 'react-query';
-import {transformAddedCards, transformSocials} from '../../utils/transform';
-import {getSavedCards, getSocials} from '../api/products';
+import {
+  transformAddedCards,
+  transformFollowers,
+  transformSocials,
+} from '../../utils/transform';
+import {getFollowers, getSavedCards, getSocials} from '../api/products';
 
 export const useGetSavedCard = () =>
   useQuery('cards', getSavedCards, {
@@ -10,4 +14,9 @@ export const useGetSavedCard = () =>
 export const useGetSocials = () =>
   useQuery('socials', getSocials, {
     select: data => transformSocials(data.data),
+  });
+
+export const useGetFollowers = () =>
+  useQuery('socials', getFollowers, {
+    select: data => transformFollowers(data.data),
   });

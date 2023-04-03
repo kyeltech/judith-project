@@ -6,7 +6,8 @@ import {getAuthToken, setAuthToken} from '../../utils/token';
 
 let redirected = false;
 const api = axios.create({
-  baseURL: 'https://judy-app.onrender.com/api/v1',
+  // baseURL: 'https://judy-app.onrender.com/api/v1',
+  baseURL: 'https://randomuser.me/api',
   //   timeout: 1000,
   // headers: new Headers( {
   //    'Content-Type': 'application/json',
