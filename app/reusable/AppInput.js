@@ -117,10 +117,9 @@ const AppInput = ({
             style={[
               styles.inputContainer,
               {
-                borderRadius: 30,
+                borderRadius: 5,
                 borderColor: focused ? borderColorStyle : 'transparent',
                 backgroundColor: focused ? '#F6F8FA' : '#ffffff',
-                elevation: 10,
               },
               error && styles.error,
               inputStyle,

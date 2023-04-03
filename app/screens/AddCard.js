@@ -29,12 +29,12 @@ const AddCard = ({navigation}) => {
       {
         component: tabProps => <Cards {...tabProps} />,
         key: 'cards',
-        title: 'Add Cards',
+        title: 'Add Todoist',
       },
       {
         component: tabProps => <Socials {...tabProps} />,
         key: 'social',
-        title: 'Add Socials',
+        title: 'See Followers',
       },
     ],
     [],
