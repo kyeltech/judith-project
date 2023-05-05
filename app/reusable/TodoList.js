@@ -1,6 +1,6 @@
 //import liraries
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
 import AppText from './AppText';
 import TodoFooter from './TodoFooter';

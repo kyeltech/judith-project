@@ -1,15 +1,13 @@
 //import liraries
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import AppButton from '../../AppButton';
 import AppCards from '../../AppCards';
 import AppInput from '../../AppInput';
-import AppText from '../../AppText';
 import useToastAlert from '../../useToastAlert';
 import uuid from 'react-native-uuid';
 import {Controller, useForm} from 'react-hook-form';
 import {WhiteColor} from '../../Constants';
-import Header from '../../Header';
 import Title from '../../Title';
 
 // Add a component

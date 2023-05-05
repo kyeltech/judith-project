@@ -33,6 +33,7 @@ const AppInput = ({
   borderColor,
   hint,
   labelValue,
+  placeholder,
   ...props
 }) => {
   const textInputRef = useRef();
@@ -147,6 +148,7 @@ const AppInput = ({
                   {color: text},
                   textInputStyle,
                 ]}
+                placeholder={label}
                 hitSlop={{top: 10, bottom: 10, left: 40, right: 40}}
                 ref={textInputRef}
                 value={labelValue}
