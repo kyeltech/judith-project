@@ -14,7 +14,7 @@ const RootStack = () => {
   const Stacks = createNativeStackNavigator();
   return (
     <Stacks.Navigator
-      initialRouteName="Auth"
+      initialRouteName="dashboardTab"
       screenOptions={{
         headerShown: false,
       }}>

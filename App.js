@@ -4,6 +4,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './router/index';
 import {QueryClientProvider, QueryClient} from 'react-query';
+import theme from './app/reusable/Theme';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,7 +25,7 @@ const App = () => {
     <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <QueryClientProvider client={queryClient}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <NavigationContainer>
             <Router />
           </NavigationContainer>
