@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ActivityIndicator, Colors} from 'react-native-paper';
+import {ActivityIndicator} from 'react-native-paper';
 import AppText from './AppText';
 import {Styles} from './GlobalStyle';
+import {WhiteColor} from './Constants';
 
 // create a component
 const AppButton = ({
@@ -40,7 +41,7 @@ const AppButton = ({
           <View style={[Styles.rowDirection, Styles.rowDirection]}>
             <ActivityIndicator
               animating={true}
-              color={loadingColor ? loadingColor : Colors.white}
+              color={loadingColor ? loadingColor : WhiteColor}
             />
             {loadingText && (
               <AppText
